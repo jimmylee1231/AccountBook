@@ -1,20 +1,25 @@
 
 enum class MENU
 {
-    INPUT = 0,
+    NONE,
+    INPUT,
     SPA,
-    TERMINATE
-}
+    TERMINATE,
+    LAST
+};
 
 enum class INPUT_MENU
 {
+    NONE,
     INCOME,
-    OUTCOME
-}
+    OUTCOME,
+    LAST
+};
 
 class AccountBook
 {
 public:
+    AccountBook();
     MENU printAndGetMenu();
     bool isProgramTerminate();
     INPUT_MENU printAndGetInputMenu();
