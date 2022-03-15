@@ -1,5 +1,7 @@
 #include "../include/DataManager.h"
 #include <fstream>
+#include <sstream>
+#include <vector>
 
 DataManager::DataManager()
 {
@@ -40,4 +42,55 @@ void DataManager::save()
 }
 void DataManager::load()
 {
+    ifstream inFile(filename);
+    string line;
+
+    if (inFile.is_open())
+    {
+        //뭔가 불러오고
+        while (getline(inFile, line))
+        {
+            stringstream ss(line);
+            string token;
+            vector<string> strVector;
+            // date, type, name, category, amount
+            while (getline(ss, token, ','))
+            {
+                strVector.push_back(token);
+            }
+            stringstream type(vector[1]);
+            int itype;
+            type >> itype;
+
+            if (itype == (int)DATA_TYPE::INCOME)
+            {
+                stringstream amount(strVector[2]);
+                int iamount;
+                amout >> iamount;
+                AccountData data(
+                    strVector[0],
+                    (DATA_TYPE)itype,
+                    iamount);
+                accountData[strVector[0]].push_back(data);
+            }
+            else if (itype == (int)DATA_TYPE::OUTCOME)
+            {
+                stringstream amount(strVector[4]);
+                int iamount;
+                amout >> iamount;
+                AccountData data(
+                    strVector[0],
+                    (DATA_TYPE)itype,
+                    iamount,
+                    strVector[2],
+                    strVector[3]);
+                accountData[strVector[0]].push_back(data);
+            }
+        }
+        inFile.close();
+    }
+    else
+    {
+        cout << filename << " can't be opened" << endl;
+    }
 }
