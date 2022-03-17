@@ -1,3 +1,4 @@
+#pragma once
 #include "../include/AccountData.h"
 #include <vector>
 #include <map>
@@ -11,6 +12,14 @@ public:
     DataManager();
     void save();
     void load();
+    void appendData(AccountData data)
+    {
+        accountData[data.getDate()].push_back(data);
+    }
+    map<string, vector<AccountData>> get()
+    {
+        return accountData;
+    }
 
 private:
     string filename = "AccountBook.data";

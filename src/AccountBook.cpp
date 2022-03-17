@@ -1,5 +1,7 @@
 #include <iostream>
 #include "../include/AccountBook.h"
+#include "../include/DataAnalysis.h"
+#include <string>
 
 using namespace std;
 
@@ -9,6 +11,7 @@ AccountBook::AccountBook()
 }
 void AccountBook::initialize()
 {
+    dataManager.load();
 }
 MENU AccountBook::printAndGetMenu()
 {
@@ -40,6 +43,11 @@ MENU AccountBook::printAndGetMenu()
 }
 bool AccountBook::isProgramTerminate()
 {
+    if (isTermiate)
+    {
+        dataManager.save();
+    }
+    return isTermiate;
 }
 INPUT_MENU AccountBook::printAndGetInputMenu()
 {
@@ -70,9 +78,104 @@ INPUT_MENU AccountBook::printAndGetInputMenu()
 }
 void AccountBook::runInput(INPUT_MENU inputMenu)
 {
+    switch (inputMenu)
+    {
+    case INPUT_MENU::INCOME:
+    {
+        string date;
+        int amount;
+        cout << "Date(YYYYMMDD) : ";
+        cin >> date;
+        cout << "Income Amount : ";
+        cin >> amount;
+        AccountData data(
+            date,
+            DATA_TYPE::INCOME,
+            amount);
+        dataManager.appendData(data);
+    }
+    break;
+    case INPUT_MENU::OUTCOME:
+    {
+        string date;
+        int amount;
+        string name, category;
+        cout << "Date(YYYYMMDD) : ";
+        cin >> date;
+        cout << "Item Name : ";
+        cin >> name;
+        cout << "Item Category : ";
+        cin >> category;
+        cout << "Income Amount : ";
+        cin >> amount;
+        AccountData data(
+            date,
+            DATA_TYPE::OUTCOME,
+            amount,
+            name,
+            category);
+        dataManager.appendData(data);
+    }
+    break;
+    default:
+        break;
+    }
 }
 void AccountBook::runSPA()
 {
+    int type;
+    cout << "1. Period Analysis" << endl;
+    cout << "2. Yearly Analysis" << endl;
+    cout << "3. Monthly Analysis" << endl;
+    cout << "4. Daily Analysis" << endl;
+    cin >> type;
+
+    string date, date_end = "";
+    switch ((ANALYSIS_TYPE)type)
+    {
+    case ANALYSIS_TYPE::PERIOD:
+    {
+        cout << "Type start date(YYYYMMDD) : ";
+        cin >> date;
+        cout << "Type end date(YYYYMMDD) : ";
+        cin >> date_end;
+    }
+    break;
+    case ANALYSIS_TYPE::YEARLY:
+    {
+        cout << "Type year(YYYY) : ";
+        cin >> date;
+    }
+    break;
+    case ANALYSIS_TYPE::MONTHLY:
+    {
+        cout << "Type month with year(YYYYMM) : ";
+        cin >> date;
+    }
+    break;
+    case ANALYSIS_TYPE::DAILY:
+    {
+        cout << "Type date(YYYYMMDD) : ";
+        cin >> date;
+    }
+    break;
+    default:
+        break;
+    }
+    dataAnalysis.selectTarget(date, date_end);
+
+    int mode;
+    cout << "Select analysis mode" << endl;
+    cout << "1. Total income/outcome" << endl;
+    cout << "2. Outcome by categroy" << endl;
+    cin >> mode;
+
+    dataAnalysis.makeAnalysisData(
+        (ANALYSIS_TYPE)type,
+        (ANALYSIS_MODE)mode,
+        dataManager.get());
+    dataAnalysis.analyze((ANALYSIS_TYPE)type,
+                         (ANALYSIS_MODE)mode);
 }
 void AccountBook::setProgramTerminate()
 {

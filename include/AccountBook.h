@@ -1,3 +1,5 @@
+#pragma once
+#include "DataManager.h"
 
 enum class MENU
 {
@@ -30,4 +32,6 @@ public:
 
 private:
     bool isTermiate;
+    DataManager dataManager;
+    DataAnalysis dataAnalysis;
 };
