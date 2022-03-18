@@ -37,7 +37,12 @@ public:
                           map<string, vector<AccountData>> data);
 
 public:
+    int wasteRate = 60;
     string date, date_end;
+    // 2022 : year
+    // 202203 : month
+    // 20220302 : daily
+    // 2022030120220305 : period
     vector<map<string, int>> analysisDataIncome;
     vector<map<string, int>> analysisDataOutcome;
     vector<map<string, map<string, int>>> analysisDataOutcomeByCategory;
