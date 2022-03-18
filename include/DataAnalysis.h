@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
+#include "AccountData.h"
 
 using namespace std;
 
@@ -39,6 +40,7 @@ public:
 public:
     int wasteRate = 60;
     string date, date_end;
+    string dateKey;
     // 2022 : year
     // 202203 : month
     // 20220302 : daily
