@@ -28,14 +28,12 @@ class DataAnalysis
 public:
     DataAnalysis()
     {
-        analysisDataIncome.reserve(ANALYSIS_TYPE::LAST);
-        analysisDataOutcome.reserve(ANALYSIS_TYPE::LAST);
-        analysisDataOutcomeByCategory.reserve(ANALYSIS_TYPE::LAST);
     }
     void selectTarget(string date, string date_end = "");
     void analyze(ANALYSIS_TYPE type, ANALYSIS_MODE mode);
     void makeAnalysisData(ANALYSIS_TYPE type, ANALYSIS_MODE mode,
                           map<string, vector<AccountData>> data);
+    virtual void getDataKey(string date);
 
 public:
     int wasteRate = 60;
@@ -45,7 +43,7 @@ public:
     // 202203 : month
     // 20220302 : daily
     // 2022030120220305 : period
-    vector<map<string, int>> analysisDataIncome;
-    vector<map<string, int>> analysisDataOutcome;
-    vector<map<string, map<string, int>>> analysisDataOutcomeByCategory;
+    map<string, int> analysisDataIncome;
+    map<string, int> analysisDataOutcome;
+    map<string, map<string, int>> analysisDataOutcomeByCategory;
 }

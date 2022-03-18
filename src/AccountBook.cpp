@@ -139,30 +139,34 @@ void AccountBook::runSPA()
         cin >> date;
         cout << "Type end date(YYYYMMDD) : ";
         cin >> date_end;
+        dataAnalysis = (PeriodAnalysis *)&periodAnalysis;
     }
     break;
     case ANALYSIS_TYPE::YEARLY:
     {
         cout << "Type year(YYYY) : ";
         cin >> date;
+        dataAnalysis = (YearlyAnalysis *)&yearlyAnalysis;
     }
     break;
     case ANALYSIS_TYPE::MONTHLY:
     {
         cout << "Type month with year(YYYYMM) : ";
         cin >> date;
+        dataAnalysis = (MonthlyAnalysis *)&monthlyAnalysis;
     }
     break;
     case ANALYSIS_TYPE::DAILY:
     {
         cout << "Type date(YYYYMMDD) : ";
         cin >> date;
+        dataAnalysis = (DailyAnalysis *)&dailyAnalysis;
     }
     break;
     default:
         break;
     }
-    dataAnalysis.selectTarget(date, date_end);
+    dataAnalysis->selectTarget(date, date_end);
 
     int mode;
     cout << "Select analysis mode" << endl;
@@ -170,12 +174,12 @@ void AccountBook::runSPA()
     cout << "2. Outcome by categroy" << endl;
     cin >> mode;
 
-    dataAnalysis.makeAnalysisData(
+    dataAnalysis->makeAnalysisData(
         (ANALYSIS_TYPE)type,
         (ANALYSIS_MODE)mode,
         dataManager.get());
-    dataAnalysis.analyze((ANALYSIS_TYPE)type,
-                         (ANALYSIS_MODE)mode);
+    dataAnalysis->analyze((ANALYSIS_TYPE)type,
+                          (ANALYSIS_MODE)mode);
 }
 void AccountBook::setProgramTerminate()
 {

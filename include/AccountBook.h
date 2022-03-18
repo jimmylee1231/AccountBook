@@ -1,5 +1,10 @@
 #pragma once
 #include "DataManager.h"
+#include "DataAnalysis.h"
+#include "PeriodAnalysis.h"
+#include "YearlyAnalysis.h"
+#include "MonthlyAnalysis.h"
+#include "DailyAnalysis.h"
 
 enum class MENU
 {
@@ -33,5 +38,9 @@ public:
 private:
     bool isTermiate;
     DataManager dataManager;
-    DataAnalysis dataAnalysis;
+    DataAnalysis *dataAnalysis;
+    PeriodAnalysis periodAnalysis;
+    YearlyAnalysis yearlyAnalysis;
+    MonthlyAnalysis monthlyAnalysis;
+    DailyAnalysis dailyAnalysis;
 };
