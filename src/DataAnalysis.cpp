@@ -63,15 +63,20 @@ void DataAnalysis::analyze(ANALYSIS_TYPE type, ANALYSIS_MODE mode)
         break;
     }
 }
-#include <map>
-using namespace std;
 void DataAnalysis::makeAnalysisData(ANALYSIS_TYPE type, ANALYSIS_MODE mode,
                                     map<string, vector<AccountData>> data)
 {
-    map<int> temp;
-    temp.cl
-        analysisDataIncome[type][dateKey]
-            .clear();
+    analysisDataIncome[type][dateKey] = 0;
+    analysisDataOutcome[type][dateKey] = 0;
+    for (auto p : data)
+    {
+        if (getDateKey(p.first, type) != dateKey)
+            continue;
+        for (auto val : p.second)
+        {
+            analysisDataOutcomeByCategory[type][dateKey][val.getCategory()] = 0;
+        }
+    }
     for (auto p : data)
     {
         if (getDateKey(p.first, type) != dateKey)
