@@ -1,5 +1,9 @@
 #include "../include/DailyAnalysis.h"
 
-void DailyAnalysis::getDataKey(string date)
+bool DailyAnalysis::isTargetData(string date)
 {
+    bool res = false;
+    res = (date == this->date);
+
+    return res;
 }

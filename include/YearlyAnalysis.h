@@ -3,5 +3,5 @@
 class YearlyAnalysis : public DataAnalysis
 {
 public:
-    virtual void getDataKey(string date);
+    virtual bool isTargetData(string date);
 };

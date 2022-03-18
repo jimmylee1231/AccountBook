@@ -70,7 +70,7 @@ void DataAnalysis::makeAnalysisData(ANALYSIS_TYPE type, ANALYSIS_MODE mode,
     analysisDataOutcome[dateKey] = 0;
     for (auto p : data)
     {
-        if (getDateKey(p.first) != dateKey)
+        if (!isTargetData(p.fisrt))
             continue;
         for (auto val : p.second)
         {
@@ -79,7 +79,7 @@ void DataAnalysis::makeAnalysisData(ANALYSIS_TYPE type, ANALYSIS_MODE mode,
     }
     for (auto p : data)
     {
-        if (getDateKey(p.first) != dateKey)
+        if (!isTargetData(p.fisrt))
             continue;
         for (auto val : p.second)
         {

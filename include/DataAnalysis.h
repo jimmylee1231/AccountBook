@@ -33,7 +33,7 @@ public:
     void analyze(ANALYSIS_TYPE type, ANALYSIS_MODE mode);
     void makeAnalysisData(ANALYSIS_TYPE type, ANALYSIS_MODE mode,
                           map<string, vector<AccountData>> data);
-    virtual void getDataKey(string date);
+    virtual bool isTargetData(string date);
 
 public:
     int wasteRate = 60;

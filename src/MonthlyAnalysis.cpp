@@ -1,6 +1,9 @@
 #include "../include/MonthlyAnalysis.h"
 
-void MonthlyAnalysis::getDataKey(string date)
+bool MonthlyAnalysis::isTargetData(string date)
 {
+    bool res = false;
+    res = (date.substr(0, 6) == this->date);
 
+    return res;
 }
