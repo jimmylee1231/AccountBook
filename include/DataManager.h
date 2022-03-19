@@ -12,16 +12,18 @@ public:
     DataManager();
     void save();
     void load();
+    void incrementLayer();
     void appendData(AccountData data)
     {
-        accountData[data.getDate()].push_back(data);
+        accountData[layerIndex - 1][data.getDate()].push_back(data);
     }
-    map<string, vector<AccountData>> get()
+    vector<map<string, vector<AccountData>>> get()
     {
         return accountData;
     }
 
 private:
     string filename = "AccountBook.data";
-    map<string, vector<AccountData>> accountData;
+    int layerIndex;
+    vector<map<string, vector<AccountData>>> accountData;
 };

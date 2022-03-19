@@ -6,6 +6,13 @@
 
 DataManager::DataManager()
 {
+    layerIndex = 0;
+    this->incrementLayer();
+}
+void DataManager::incrementLayer()
+{
+    layerIndex++;
+    accountData.push_back(map<string, vector<AccountData>>{});
 }
 void DataManager::save()
 {
@@ -18,20 +25,23 @@ void DataManager::save()
         INCOME type  : date, type, amount
         OUTCOME type : date, type, name, category, amount
         */
-        for (auto data_set : accountData)
+        for(int i = 0; i < layerIndex; i++)
         {
-            for (auto data : data_set.second)
+            for (auto data_set : accountData[i])
             {
-                line = "";
-                line += data.getDate();
-                line += "," + to_string((int)data.getType());
-                if (data.getType() == DATA_TYPE::OUTCOME)
+                for (auto data : data_set.second)
                 {
-                    line += "," + data.getName();
-                    line += "," + data.getCategory();
+                    line = "";
+                    line += data.getDate();
+                    line += "," + to_string((int)data.getType());
+                    if (data.getType() == DATA_TYPE::OUTCOME)
+                    {
+                        line += "," + data.getName();
+                        line += "," + data.getCategory();
+                    }
+                    line += "," + to_string(data.getAmount());
+                    outFile << line << endl;
                 }
-                line += "," + to_string(data.getAmount());
-                outFile << line << endl;
             }
         }
         outFile.close();
@@ -72,7 +82,7 @@ void DataManager::load()
                     strVector[0],
                     (DATA_TYPE)itype,
                     iamount);
-                accountData[strVector[0]].push_back(data);
+                accountData[0][strVector[0]].push_back(data);
             }
             else if (itype == (int)DATA_TYPE::OUTCOME)
             {
@@ -85,7 +95,7 @@ void DataManager::load()
                     iamount,
                     strVector[2],
                     strVector[3]);
-                accountData[strVector[0]].push_back(data);
+                accountData[0][strVector[0]].push_back(data);
             }
         }
         inFile.close();

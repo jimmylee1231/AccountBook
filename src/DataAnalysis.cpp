@@ -3,6 +3,14 @@
 
 using namespace std;
 
+DataAnalysis::DataAnalysis()
+{
+    lastLayerIndex = 0;
+    analysisDataIncome.clear();
+    analysisDataOutcome.clear();
+    analysisDataOutcomeByCategory.clear();
+}
+
 void DataAnalysis::selectTarget(string date, string date_end)
 {
     // year : 2022
@@ -64,53 +72,46 @@ void DataAnalysis::analyze(ANALYSIS_MODE mode)
     default:
         break;
     }
+    lastLayerIndex++;
 }
 void DataAnalysis::makeAnalysisData(ANALYSIS_MODE mode,
-                                    map<string, vector<AccountData>> data)
+                                    vector<map<string, vector<AccountData>>> layeredData)
 {
-    analysisDataIncome[dateKey] = 0;
-    analysisDataOutcome[dateKey] = 0;
-    for (auto p : data)
+    for (int i = lastLayerIndex; i < layeredData.size(); i++)
     {
-        if (!isTargetData(p.first))
-            continue;
-        for (auto val : p.second)
+        for (auto p : layeredData[i])
         {
-            analysisDataOutcomeByCategory[dateKey][val.getCategory()] = 0;
-        }
-    }
-    for (auto p : data)
-    {
-        if (!isTargetData(p.first))
-            continue;
-        for (auto val : p.second)
-        {
-            switch (val.getType())
+            if (!isTargetData(p.first))
+                continue;
+            for (auto val : p.second)
             {
-            case DATA_TYPE::INCOME:
-            {
-                analysisDataIncome[dateKey] += val.getAmount();
-            }
-            break;
-            case DATA_TYPE::OUTCOME:
-                switch (mode)
+                switch (val.getType())
                 {
-                case ANALYSIS_MODE::NETCOME:
+                case DATA_TYPE::INCOME:
                 {
-                    analysisDataOutcome[dateKey] += val.getAmount();
+                    analysisDataIncome[dateKey] += val.getAmount();
                 }
                 break;
-                case ANALYSIS_MODE::CATEGORY_COME:
-                {
-                    analysisDataOutcomeByCategory[dateKey][val.getCategory()] += val.getAmount();
-                }
-                break;
+                case DATA_TYPE::OUTCOME:
+                    switch (mode)
+                    {
+                    case ANALYSIS_MODE::NETCOME:
+                    {
+                        analysisDataOutcome[dateKey] += val.getAmount();
+                    }
+                    break;
+                    case ANALYSIS_MODE::CATEGORY_COME:
+                    {
+                        analysisDataOutcomeByCategory[dateKey][val.getCategory()] += val.getAmount();
+                    }
+                    break;
+                    default:
+                        break;
+                    }
+                    break;
                 default:
                     break;
                 }
-                break;
-            default:
-                break;
             }
         }
     }

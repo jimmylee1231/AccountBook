@@ -179,6 +179,7 @@ void AccountBook::runSPA()
         (ANALYSIS_MODE)mode,
         dataManager.get());
     dataAnalysis->analyze((ANALYSIS_MODE)mode);
+    dataManager.incrementLayer();
 }
 void AccountBook::setProgramTerminate()
 {
