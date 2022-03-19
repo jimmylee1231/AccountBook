@@ -1,4 +1,5 @@
 #include "../include/DataManager.h"
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -58,7 +59,7 @@ void DataManager::load()
             {
                 strVector.push_back(token);
             }
-            stringstream type(vector[1]);
+            stringstream type(strVector[1]);
             int itype;
             type >> itype;
 
@@ -66,7 +67,7 @@ void DataManager::load()
             {
                 stringstream amount(strVector[2]);
                 int iamount;
-                amout >> iamount;
+                amount >> iamount;
                 AccountData data(
                     strVector[0],
                     (DATA_TYPE)itype,
@@ -77,7 +78,7 @@ void DataManager::load()
             {
                 stringstream amount(strVector[4]);
                 int iamount;
-                amout >> iamount;
+                amount >> iamount;
                 AccountData data(
                     strVector[0],
                     (DATA_TYPE)itype,

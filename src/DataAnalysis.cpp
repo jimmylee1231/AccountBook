@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void DataAnalysis::selectTarget(string date, string date_end = "")
+void DataAnalysis::selectTarget(string date, string date_end)
 {
     // year : 2022
     // month : 202203
@@ -13,18 +13,18 @@ void DataAnalysis::selectTarget(string date, string date_end = "")
     this->date_end = date_end;
     this->dateKey = date + date_end;
 }
-void DataAnalysis::analyze(ANALYSIS_TYPE type, ANALYSIS_MODE mode)
+void DataAnalysis::analyze(ANALYSIS_MODE mode)
 {
-    swtich(mode)
+    switch (mode)
     {
     case ANALYSIS_MODE::NETCOME:
-        /* mode == ANALYSIS_MODE::NETCOME
-        Total income : 1000000
-        Total outcome : 650000
-        Your spend rate : 65%
-        You have spent a lot 또는
-        You are saving well
-        */
+    { /* mode == ANALYSIS_MODE::NETCOME
+     Total income : 1000000
+     Total outcome : 650000
+     Your spend rate : 65%
+     You have spent a lot 또는
+     You are saving well
+     */
         int spend_rate = (100 * analysisDataOutcome[dateKey]) / analysisDataIncome[dateKey];
         cout << "Total income : ";
         cout << analysisDataIncome[dateKey] << endl;
@@ -36,12 +36,13 @@ void DataAnalysis::analyze(ANALYSIS_TYPE type, ANALYSIS_MODE mode)
             cout << "You have spent a lot." << endl;
         else
             cout << "You are saving well." << endl;
-        break;
+    }
+    break;
     case ANALYSIS_MODE::CATEGORY_COME:
-        /*
-        Category
-        You have spent 얼마 at 카테고리 이름(퍼센티지%) at most
-        */
+    { /*
+     Category
+     You have spent 얼마 at 카테고리 이름(퍼센티지%) at most
+     */
         int maxSpendMoney = 0;
         string maxSpendCategoryName = "";
         for (auto data : analysisDataOutcomeByCategory[dateKey])
@@ -58,19 +59,20 @@ void DataAnalysis::analyze(ANALYSIS_TYPE type, ANALYSIS_MODE mode)
         cout << maxSpendMoney << " at ";
         cout << maxSpendCategoryName << "(";
         cout << spend_rate << "%)  at most" << endl;
-        break;
+    }
+    break;
     default:
         break;
     }
 }
-void DataAnalysis::makeAnalysisData(ANALYSIS_TYPE type, ANALYSIS_MODE mode,
+void DataAnalysis::makeAnalysisData(ANALYSIS_MODE mode,
                                     map<string, vector<AccountData>> data)
 {
     analysisDataIncome[dateKey] = 0;
     analysisDataOutcome[dateKey] = 0;
     for (auto p : data)
     {
-        if (!isTargetData(p.fisrt))
+        if (!isTargetData(p.first))
             continue;
         for (auto val : p.second)
         {
@@ -79,24 +81,30 @@ void DataAnalysis::makeAnalysisData(ANALYSIS_TYPE type, ANALYSIS_MODE mode,
     }
     for (auto p : data)
     {
-        if (!isTargetData(p.fisrt))
+        if (!isTargetData(p.first))
             continue;
         for (auto val : p.second)
         {
             switch (val.getType())
             {
             case DATA_TYPE::INCOME:
+            {
                 analysisDataIncome[dateKey] += val.getAmount();
-                break;
+            }
+            break;
             case DATA_TYPE::OUTCOME:
                 switch (mode)
                 {
                 case ANALYSIS_MODE::NETCOME:
+                {
                     analysisDataOutcome[dateKey] += val.getAmount();
-                    break;
+                }
+                break;
                 case ANALYSIS_MODE::CATEGORY_COME:
+                {
                     analysisDataOutcomeByCategory[dateKey][val.getCategory()] += val.getAmount();
-                    break;
+                }
+                break;
                 default:
                     break;
                 }

@@ -124,6 +124,7 @@ void AccountBook::runInput(INPUT_MENU inputMenu)
 void AccountBook::runSPA()
 {
     int type;
+    cout << "---------- Please select analysis type ----------" << endl;
     cout << "1. Period Analysis" << endl;
     cout << "2. Yearly Analysis" << endl;
     cout << "3. Monthly Analysis" << endl;
@@ -169,17 +170,15 @@ void AccountBook::runSPA()
     dataAnalysis->selectTarget(date, date_end);
 
     int mode;
-    cout << "Select analysis mode" << endl;
+    cout << "---------- Please select analysis mode ----------" << endl;
     cout << "1. Total income/outcome" << endl;
     cout << "2. Outcome by categroy" << endl;
     cin >> mode;
 
     dataAnalysis->makeAnalysisData(
-        (ANALYSIS_TYPE)type,
         (ANALYSIS_MODE)mode,
         dataManager.get());
-    dataAnalysis->analyze((ANALYSIS_TYPE)type,
-                          (ANALYSIS_MODE)mode);
+    dataAnalysis->analyze((ANALYSIS_MODE)mode);
 }
 void AccountBook::setProgramTerminate()
 {

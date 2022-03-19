@@ -1,3 +1,4 @@
+#pragma once
 #include "DataAnalysis.h"
 
 class PeriodAnalysis : public DataAnalysis

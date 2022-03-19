@@ -11,15 +11,21 @@ int main()
         switch (menu)
         {
         case (MENU::INPUT):
+        {
             INPUT_MENU inputMenu = accountBook.printAndGetInputMenu();
             accountBook.runInput(inputMenu);
-            break;
+        }
+        break;
         case (MENU::SPA):
+        {
             accountBook.runSPA();
-            break;
+        }
+        break;
         case (MENU::TERMINATE):
+        {
             accountBook.setProgramTerminate();
-            break;
+        }
+        break;
         default:
             break;
         }
